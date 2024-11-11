@@ -40,7 +40,7 @@ def main():
 	tags_by_family = collections.defaultdict(list)
 
 	# we want a result for every public family, even if it's 0 tags
-	resp = requests.get("https://fonts.google.com/metadata/fonts")
+	resp = requests.get("https://fonts.google.com/metadata/fonts", timeout=60)
 	resp.raise_for_status()
 	for family in resp.json()["familyMetadataList"]:
 		count_by_family[family["family"]] = 0
