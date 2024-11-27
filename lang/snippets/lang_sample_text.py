@@ -17,6 +17,7 @@ from lxml import etree
 import os
 import re
 import argparse
+import lxml.etree
 
 
 def main(argv=None):
@@ -39,7 +40,7 @@ def main(argv=None):
 
     language = ReadProto(languages_public_pb2.LanguageProto(), args.lang)
 
-    udhr_data = etree.parse(args.udhr)
+    udhr_data = etree.parse(args.udhr, parser=lxml.etree.XMLParser(resolve_entities=False))
     head = udhr_data.getroot()
     for name, value in head.attrib.items():
         if re.search(r"\{.*\}lang", name):
