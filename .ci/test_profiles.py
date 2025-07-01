@@ -2,9 +2,9 @@ import pytest
 import sys
 import os
 from bs4 import BeautifulSoup
-import requests
 from fontbakery.designers_pb2 import DesignerInfoProto
 from google.protobuf import text_format
+from security import safe_requests
 
 
 # TODO this could potentially be a fontbakery profile
@@ -84,7 +84,7 @@ def test_info_link_works(proto_info):
     link = proto_info.link
     if "instagram.com" in link or not link:
         return
-    assert requests.get(link).status_code == 200, "info.pb: link is not producing a 200 status code"
+    assert safe_requests.get(link).status_code == 200, "info.pb: link is not producing a 200 status code"
 
 
 def test_bio_links_work(bio):
@@ -94,5 +94,5 @@ def test_bio_links_work(bio):
         if "instagram.com" in url:  # these have a habit of raise a 4xx status code
             continue
         assert (
-            requests.get(url).status_code == 200
+            safe_requests.get(url).status_code == 200
         ), f"{url} is not producing a 200 status code"
